@@ -1,0 +1,299 @@
+:root {
+  --bg-color: #0f1015;
+  --card-bg: #181a20;
+  --accent-color: #00e676;
+  --accent-hover: #00c853;
+  --text-main: #ffffff;
+  --text-sub: #a0a5b5;
+  --border-color: #262933;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  padding-bottom: 110px;
+}
+
+/* Navbar */
+.navbar {
+  background: rgba(24, 26, 32, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box input {
+  background: #222530;
+  border: 1px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: #fff;
+  width: 250px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.search-box input:focus {
+  border-color: var(--accent-color);
+  width: 280px;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #005c28 0%, #0f1015 100%);
+  padding: 40px 30px;
+  border-radius: 0 0 20px 20px;
+  margin-bottom: 30px;
+}
+
+.hero-content h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.hero-content p {
+  color: #d0d5e5;
+}
+
+/* Main Layout */
+.main-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.section-header h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+/* Music Grid (User View) */
+.music-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.music-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px;
+  transition: transform 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.music-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-color);
+}
+
+.card-info h4 {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  margin-bottom: 5px;
+}
+
+.card-info p {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+}
+
+.card-tag {
+  display: inline-block;
+  background: #222530;
+  color: var(--accent-color);
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-play {
+  flex: 1;
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-play:hover {
+  background: var(--accent-hover);
+}
+
+.btn-download {
+  background: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Player Bar */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #14161d;
+  border-top: 1px solid var(--border-color);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+}
+
+.now-playing {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.music-icon-small {
+  font-size: 1.8rem;
+  background: #222530;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#playerTitle {
+  color: var(--accent-color);
+}
+
+#playerArtist {
+  color: var(--text-sub);
+  font-size: 0.85rem;
+}
+
+audio {
+  width: 350px;
+  outline: none;
+}
+
+/* Admin Dashboard Specific */
+.admin-nav {
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.btn-frontend {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.subtitle {
+  color: var(--text-sub);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  background: #222530;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  outline: none;
+}
+
+.btn-submit {
+  width: 100%;
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.status-box {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-song-item {
+  background: #222530;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

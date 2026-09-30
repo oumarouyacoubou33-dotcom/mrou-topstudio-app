@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mrou Topstudio | Plateforme Musique</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">🎵</span> MROU TOPSTUDIO
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Rechercher chanson, artiste..." onkeyup="searchMusic()">
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <header class="hero">
+    <div class="hero-content">
+      <h2>Écoutez & Téléchargez Vos Chansons Préférées</h2>
+      <p>Bienvenue sur la meilleure plateforme musicale de Mrou Topstudio</p>
+    </div>
+  </header>
+
+  <!-- Main Music Section -->
+  <main class="main-container">
+    <div class="section-header">
+      <h3>🔥 Nouveaux Morceaux</h3>
+    </div>
+    
+    <div id="musicGrid" class="music-grid">
+      <!-- Les chansons s'afficheront ici -->
+    </div>
+  </main>
+
+  <!-- Sticky Audio Player Bar -->
+  <div class="player-bar" id="playerBar">
+    <div class="now-playing">
+      <div class="music-icon-small">🎧</div>
+      <div>
+        <h4 id="playerTitle">Choisissez une chanson</h4>
+        <p id="playerArtist">-</p>
+      </div>
+    </div>
+    <audio id="audioPlayer" controls autoplay></audio>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
