@@ -3,35 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de Bord Admin | Mrou Topstudio</title>
+  <title>Connexion Admin | Mrou Topstudio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-body">
 
   <nav class="navbar admin-nav">
     <div class="logo">
-      <span class="logo-icon">⚡</span> PANNEAU D'ADMINISTRATION
+      <span class="logo-icon">🔒</span> ESPACE ADMINISTRATION
     </div>
-    <a href="/" class="btn-frontend">← Retour à l'accueil</a>
+    <a href="/" class="btn-frontend">← Retour au site</a>
   </nav>
 
   <main class="main-container">
-    <div class="admin-grid">
+
+    <!-- Screen 1: Password Login Screen -->
+    <div id="loginScreen" class="card" style="max-width: 450px; margin: 40px auto;">
+      <h3>🔑 Accès Sécurisé Admin</h3>
+      <p class="subtitle">Veuillez entrer le mot de passe administrateur :</p>
       
-      <!-- Formulaire d'upload -->
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" id="adminPasswordInput" placeholder="Entrez votre mot de passe">
+      </div>
+      <button onclick="loginAdmin()" class="btn-submit">Se Connecter</button>
+      <p id="loginStatus" class="status-box"></p>
+    </div>
+
+    <!-- Screen 2: Dashboard UI (Hidden until authenticated) -->
+    <div id="adminContent" class="admin-grid" style="display: none;">
       <div class="card upload-card">
-        <h3>➕ Ajouter une nouvelle chanson</h3>
-        <p class="subtitle">Entrez les détails et téléchargez le fichier audio MP3</p>
+        <h3>➕ Ajouter une chanson</h3>
+        <p class="subtitle">Uploadez vos fichiers audio MP3</p>
         
         <form id="uploadForm">
           <div class="form-group">
             <label>Titre de la chanson</label>
-            <input type="text" id="title" placeholder="Ex: Bienvenue" required>
+            <input type="text" id="title" placeholder="Titre du morceau" required>
           </div>
 
           <div class="form-group">
             <label>Artiste / Compositeur</label>
-            <input type="text" id="artist" placeholder="Ex: Mrou Topstudio" required>
+            <input type="text" id="artist" placeholder="Nom de l'artiste" required>
           </div>
 
           <div class="form-group">
@@ -40,7 +53,7 @@
               <option value="Hausa Hip-Hop">Hausa Hip-Hop</option>
               <option value="Afrobeats">Afrobeats</option>
               <option value="Studio Mix">Studio Mix</option>
-              <option value="Gospel / Doux">Gospel / Doux</option>
+              <option value="Gospel / Slow">Gospel / Slow</option>
             </select>
           </div>
 
@@ -55,15 +68,12 @@
         <div id="status" class="status-box"></div>
       </div>
 
-      <!-- Preview Area -->
       <div class="card preview-card">
-        <h3>📊 Chansons en ligne</h3>
-        <div id="adminSongList" class="admin-song-list">
-          <!-- Liste des chansons -->
-        </div>
+        <h3>📊 Morceaux enregistrés</h3>
+        <div id="adminSongList" class="admin-song-list"></div>
       </div>
-
     </div>
+
   </main>
 
   <script src="script.js"></script>

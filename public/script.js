@@ -1,4 +1,5 @@
 let allSongs = [];
+let savedAdminPassword = sessionStorage.getItem('adminToken') || '';
 
 const musicGrid = document.getElementById('musicGrid');
 const adminSongList = document.getElementById('adminSongList');
@@ -8,7 +9,52 @@ const playerArtist = document.getElementById('playerArtist');
 const uploadForm = document.getElementById('uploadForm');
 const statusDiv = document.getElementById('status');
 
-// Fetch Songs From Server
+const loginScreen = document.getElementById('loginScreen');
+const adminContent = document.getElementById('adminContent');
+const loginStatus = document.getElementById('loginStatus');
+
+// Check authentication status on page load
+if (loginScreen && adminContent) {
+  if (savedAdminPassword) {
+    verifyAndUnlock(savedAdminPassword);
+  }
+}
+
+async function loginAdmin() {
+  const pwd = document.getElementById('adminPasswordInput').value;
+  if (!pwd) return;
+  verifyAndUnlock(pwd);
+}
+
+async function verifyAndUnlock(pwd) {
+  try {
+    const res = await fetch('/api/verify-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwd })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      savedAdminPassword = pwd;
+      sessionStorage.setItem('adminToken', pwd);
+      if (loginScreen) loginScreen.style.display = 'none';
+      if (adminContent) adminContent.style.display = 'grid';
+      fetchSongs();
+    } else {
+      if (loginStatus) {
+        loginStatus.style.color = "red";
+        loginStatus.textContent = data.error || "Mot de passe incorrect !";
+      }
+    }
+  } catch (err) {
+    if (loginStatus) {
+      loginStatus.style.color = "red";
+      loginStatus.textContent = "Erreur réseau/serveur !";
+    }
+  }
+}
+
 async function fetchSongs() {
   try {
     const res = await fetch('/api/songs');
@@ -21,7 +67,6 @@ async function fetchSongs() {
   }
 }
 
-// Render User Frontend Grid
 function renderUserGrid(songs) {
   musicGrid.innerHTML = "";
   if (songs.length === 0) {
@@ -46,7 +91,6 @@ function renderUserGrid(songs) {
   });
 }
 
-// Render Admin Dashboard List
 function renderAdminList(songs) {
   adminSongList.innerHTML = "";
   if (songs.length === 0) {
@@ -67,7 +111,6 @@ function renderAdminList(songs) {
   });
 }
 
-// Play Song Function
 function playSong(title, artist, url) {
   if (audioPlayer) {
     playerTitle.textContent = title;
@@ -77,7 +120,6 @@ function playSong(title, artist, url) {
   }
 }
 
-// Search Filter
 function searchMusic() {
   const query = document.getElementById('searchInput').value.toLowerCase();
   const filtered = allSongs.filter(song => 
@@ -88,7 +130,6 @@ function searchMusic() {
   renderUserGrid(filtered);
 }
 
-// Handle Song Upload (Admin Page)
 if (uploadForm) {
   uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -112,6 +153,9 @@ if (uploadForm) {
     try {
       const res = await fetch('/api/upload', {
         method: 'POST',
+        headers: {
+          'x-admin-password': savedAdminPassword
+        },
         body: formData
       });
 
@@ -124,7 +168,7 @@ if (uploadForm) {
         fetchSongs();
       } else {
         statusDiv.style.color = "red";
-        statusDiv.textContent = data.error || "Une erreur est survenue !";
+        statusDiv.textContent = data.error || "Accès refusé !";
       }
     } catch (err) {
       statusDiv.style.color = "red";
@@ -133,5 +177,4 @@ if (uploadForm) {
   });
 }
 
-// Initialize
 fetchSongs();
