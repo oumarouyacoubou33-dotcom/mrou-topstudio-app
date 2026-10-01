@@ -1,0 +1,16 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    # S'exécute toutes les 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Website
+        run: |
+          curl -s https://mrou-topstudio.onrender.com > /dev/null
+          echo "Ping envoyé avec succès à Render !"
