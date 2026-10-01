@@ -2,15 +2,15 @@ name: Keep Render Alive
 
 on:
   schedule:
-    # S'exécute toutes les 10 minutes
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'  # Zai riƙa duba shi duk bayan minti 5
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Render Website
-        run: |
-          curl -s https://mrou-topstudio.onrender.com > /dev/null
-          echo "Ping envoyé avec succès à Render !"
+      - name: Ping Render App
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: 'https://mrou-topstudio-app.onrender.com/'
+          method: 'GET'
