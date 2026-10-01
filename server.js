@@ -3,37 +3,42 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set your Admin Password Here
+// Admin Password
 const ADMIN_PASSWORD = "mrou2026password"; 
+
+// Tsara Cloudinary Credentials
+cloudinary.config({
+  cloud_name: 'fbtfccom',
+  api_key: '759698651832687',
+  api_secret: 'x85MDo8JWIfH1DJBahXFxa3OH1Q'
+});
+
+// Set up Storage din Cloudinary don fayilolin Audio/MP3
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'mrou_topstudio_songs',
+    resource_type: 'auto'
+  }
+});
+
+const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
+// Fayil din adana bayanan wakoki (Data JSON)
 const dataFile = path.join(__dirname, 'songs.json');
 if (!fs.existsSync(dataFile)) {
   fs.writeFileSync(dataFile, JSON.stringify([]));
 }
-
-app.use('/uploads', express.static(uploadDir));
-app.use(express.static(path.join(__dirname, 'public')));
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, 'mrou-' + Date.now() + ext);
-  }
-});
-const upload = multer({ storage: storage });
 
 function getSongs() {
   try {
@@ -51,7 +56,6 @@ function saveSongs(songs) {
 // API Endpoints
 app.get('/api/songs', (req, res) => res.json(getSongs()));
 
-// Verification Password API
 app.post('/api/verify-admin', (req, res) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
@@ -60,7 +64,7 @@ app.post('/api/verify-admin', (req, res) => {
   res.status(401).json({ success: false, error: "Mot de passe incorrect !" });
 });
 
-// Upload Track API (Requires Admin Password in Headers)
+// Upload Track API zuwa Cloudinary
 app.post('/api/upload', upload.single('waka'), (req, res) => {
   const authHeader = req.headers['x-admin-password'];
   
@@ -76,7 +80,7 @@ app.post('/api/upload', upload.single('waka'), (req, res) => {
     title: req.body.title || "Titre inconnu",
     artist: req.body.artist || "Artiste inconnu",
     category: req.body.category || "General",
-    url: '/uploads/' + req.file.filename,
+    url: req.file.path, // Direct URL daga Cloudinary
     date: new Date().toLocaleDateString('fr-FR')
   };
   
@@ -90,5 +94,5 @@ app.get('/admin', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("🚀 Mrou Topstudio App operational on port " + PORT);
+  console.log("🚀 Mrou Topstudio App with Cloudinary active on port " + PORT);
 });
