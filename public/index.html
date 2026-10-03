@@ -3,52 +3,349 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mrou Topstudio | Plateforme Musique</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Mrou Topstudio | Premium Music Experience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #080911;
+      --card-bg: rgba(22, 25, 43, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9333ea;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    
+    body { 
+      background-color: var(--bg-dark); 
+      color: var(--text-main); 
+      padding: 15px 10px 40px 10px; 
+      max-width: 650px; 
+      margin: 0 auto; 
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.12) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* Studio Header Banner */
+    header { 
+      text-align: center; 
+      margin: 15px 0 25px 0;
+      position: relative;
+    }
+    
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 20px;
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 { 
+      font-size: 2.2rem; 
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    p.sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 400; }
+
+    /* Modern Search Input */
+    .search-box { 
+      position: relative;
+      margin-bottom: 20px; 
+    }
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .search-box input {
+      width: 100%; 
+      padding: 14px 14px 14px 45px; 
+      border-radius: 14px; 
+      border: 1px solid var(--card-border);
+      background: rgba(18, 21, 37, 0.8); 
+      color: #fff; 
+      font-size: 0.95rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+    }
+
+    /* Category Badges */
+    .categories { 
+      display: flex; 
+      gap: 10px; 
+      overflow-x: auto; 
+      padding-bottom: 8px; 
+      margin-bottom: 25px; 
+      scrollbar-width: none;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    
+    .cat-btn {
+      background: rgba(255, 255, 255, 0.04); 
+      color: var(--text-muted); 
+      border: 1px solid var(--card-border); 
+      padding: 8px 18px;
+      border-radius: 25px; 
+      font-size: 0.85rem; 
+      font-weight: 600;
+      cursor: pointer; 
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .cat-btn.active { 
+      background: linear-gradient(135deg, var(--accent-cyan), #0284c7); 
+      color: #000; 
+      font-weight: 700; 
+      border-color: transparent;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Card Pro Layout */
+    .song-card {
+      background: var(--card-bg); 
+      border: 1px solid var(--card-border); 
+      border-radius: 16px; 
+      padding: 16px;
+      margin-bottom: 16px; 
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .song-card:hover {
+      border-color: rgba(0, 242, 254, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .song-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .cover-art {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .song-info { flex: 1; }
+    .song-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .song-artist { font-size: 0.85rem; color: var(--accent-cyan); font-weight: 500; }
+    .song-cat-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: rgba(255,255,255,0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+
+    /* Custom Audio Player Style */
+    audio { 
+      width: 100%; 
+      height: 38px; 
+      border-radius: 8px;
+      margin: 8px 0;
+      filter: invert(0.9) hue-rotate(180deg); 
+    }
+
+    .song-meta { 
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 0.78rem; 
+      color: var(--text-muted); 
+      margin-bottom: 12px;
+      padding: 0 2px;
+    }
+
+    /* Buttons Group */
+    .actions { display: flex; gap: 10px; }
+    .btn {
+      flex: 1; 
+      padding: 10px 14px; 
+      text-align: center; 
+      border-radius: 10px; 
+      text-decoration: none;
+      font-size: 0.85rem; 
+      font-weight: 700; 
+      cursor: pointer; 
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-download { 
+      background: linear-gradient(135deg, var(--accent-cyan), #0284c7); 
+      color: #080911; 
+      box-shadow: 0 4px 12px rgba(0, 242, 254, 0.25);
+    }
+    .btn-download:hover { opacity: 0.9; }
+    
+    .btn-share { 
+      background: rgba(37, 211, 102, 0.15); 
+      color: #25d366; 
+      border: 1px solid rgba(37, 211, 102, 0.3);
+    }
+    .btn-share:hover { background: rgba(37, 211, 102, 0.25); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Top Navbar -->
-  <nav class="navbar">
-    <div class="logo">
-      <span class="logo-icon">🎵</span> MROU TOPSTUDIO
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Rechercher chanson, artiste..." onkeyup="searchMusic()">
-    </div>
-  </nav>
-
-  <!-- Hero Banner -->
-  <header class="hero">
-    <div class="hero-content">
-      <h2>Écoutez & Téléchargez Vos Chansons Préférées</h2>
-      <p>Bienvenue sur la meilleure plateforme musicale de Mrou Topstudio</p>
-    </div>
+  <header>
+    <div class="brand-badge"><i class="fa-solid fa-record-vinyl"></i> Official Music Platform</div>
+    <h1>MROU TOPSTUDIO</h1>
+    <p class="sub">Écoutez & Téléchargez le Meilleur de la Musique</p>
   </header>
 
-  <!-- Main Music Section -->
-  <main class="main-container">
-    <div class="section-header">
-      <h3>🔥 Nouveaux Morceaux</h3>
-    </div>
-    
-    <div id="musicGrid" class="music-grid">
-      <!-- Les chansons s'afficheront ici -->
-    </div>
-  </main>
-
-  <!-- Sticky Audio Player Bar -->
-  <div class="player-bar" id="playerBar">
-    <div class="now-playing">
-      <div class="music-icon-small">🎧</div>
-      <div>
-        <h4 id="playerTitle">Choisissez une chanson</h4>
-        <p id="playerArtist">-</p>
-      </div>
-    </div>
-    <audio id="audioPlayer" controls autoplay></audio>
+  <div class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="Rechercher un titre ou un artiste..." oninput="filterSongs()">
   </div>
 
-  <script src="script.js"></script>
+  <div class="categories" id="catContainer">
+    <button class="cat-btn active" onclick="selectCategory('All', this)">Tous</button>
+    <button class="cat-btn" onclick="selectCategory('Hip-Hop', this)">Hip-Hop</button>
+    <button class="cat-btn" onclick="selectCategory('Afrobeats', this)">Afrobeats</button>
+    <button class="cat-btn" onclick="selectCategory('Slow', this)">Slow</button>
+    <button class="cat-btn" onclick="selectCategory('Studio Mix', this)">Studio Mix</button>
+  </div>
+
+  <div id="songsList"></div>
+
+  <footer>
+    Mrou Topstudio Production © 2026 • Tous droits réservés
+  </footer>
+
+  <script>
+    let allSongs = [];
+    let currentCat = 'All';
+
+    async function loadSongs() {
+      try {
+        const res = await fetch('/api/songs');
+        allSongs = await res.json();
+        renderSongs();
+      } catch (err) {
+        document.getElementById('songsList').innerHTML = '<p style="text-align:center; color:#e2e8f0;">Erreur de chargement des morceaux.</p>';
+      }
+    }
+
+    function renderSongs() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const list = document.getElementById('songsList');
+      list.innerHTML = '';
+
+      const filtered = allSongs.filter(s => {
+        const matchesSearch = s.title.toLowerCase().includes(search) || s.artist.toLowerCase().includes(search);
+        const matchesCat = currentCat === 'All' || s.category === currentCat;
+        return matchesSearch && matchesCat;
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Aucun morceau trouvé.</p>';
+        return;
+      }
+
+      filtered.forEach(s => {
+        list.innerHTML += `
+          <div class="song-card">
+            <div class="song-header">
+              <div class="cover-art"><i class="fa-solid fa-music"></i></div>
+              <div class="song-info">
+                <div class="song-title">${s.title}</div>
+                <div class="song-artist">🎤 ${s.artist} <span class="song-cat-badge">${s.category || 'General'}</span></div>
+              </div>
+            </div>
+            
+            <audio controls onplay="trackStat(${s.id}, 'play')">
+              <source src="${s.url}" type="audio/mpeg">
+            </audio>
+
+            <div class="song-meta">
+              <span><i class="fa-solid fa-play"></i> ${s.plays || 0} écoutes</span>
+              <span><i class="fa-solid fa-download"></i> ${s.downloads || 0} téléchargements</span>
+            </div>
+
+            <div class="actions">
+              <a href="${s.url}" download class="btn btn-download" onclick="trackStat(${s.id}, 'download')">
+                <i class="fa-solid fa-circle-down"></i> Télécharger
+              </a>
+              <button class="btn btn-share" onclick="shareSong('${s.title}', '${s.artist}', '${s.url}')">
+                <i class="fa-brands fa-whatsapp"></i> Partager
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function selectCategory(cat, btn) {
+      currentCat = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSongs();
+    }
+
+    function filterSongs() { renderSongs(); }
+
+    async function trackStat(id, type) {
+      fetch(`/api/songs/${id}/stats`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type })
+      });
+    }
+
+    function shareSong(title, artist, url) {
+      const text = `🎧 Écoutez "${title}" de ${artist} sur Mrou Topstudio :\n${window.location.origin}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    loadSongs();
+  </script>
 </body>
 </html>
